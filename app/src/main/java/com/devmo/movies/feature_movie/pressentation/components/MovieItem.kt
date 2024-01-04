@@ -39,15 +39,14 @@ import com.devmo.movies.feature_movie.domain.model.MovieItem
 @Composable
 fun MovieItem(movie: MovieItem,  onMovieClick: (Int) -> Unit) {
     var height by remember {
-        mutableStateOf(150.dp)
+        mutableStateOf(200.dp)
     }
     val context = LocalContext.current
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxSize()
             .onSizeChanged {
-                height = with(Density(context)) { it.height.toDp() }
+                height = with(Density(context)) { (it.width * 2f).toDp() }
             }
             .clickable { onMovieClick(movie.id) },
         elevation = CardDefaults.elevatedCardElevation(8.dp)
@@ -57,7 +56,8 @@ fun MovieItem(movie: MovieItem,  onMovieClick: (Int) -> Unit) {
                 model = movie.imageURL,
                 contentDescription = "",
                 modifier = Modifier
-                    .fillMaxSize(),
+                    .height(height)
+                    .fillMaxWidth(),
                 contentScale = ContentScale.Crop
             )
 
