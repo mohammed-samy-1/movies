@@ -26,7 +26,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.devmo.movies.R
 import com.devmo.movies.core.pressentation.theme.ui.*
@@ -66,21 +65,25 @@ fun Search(onClick: (String) -> Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
             .fillMaxWidth()
-            .padding(15.dp)
+            .padding(15.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         var query by remember {
             mutableStateOf(TextFieldValue(""))
         }
         OutlinedTextField(
             value = query, onValueChange = { query = it },
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            singleLine = true,
+            textStyle = Typography.titleSmall.copy(color = Color.White),
+            shape = RoundedCornerShape(10.dp)
         )
 
         Icon(
             painter = painterResource(id = R.drawable.baseline_search_24),
             contentDescription = "search", tint = Color.White, modifier = Modifier
                 .size(50.dp)
-                .padding(top = 20.dp)
+                .padding(start = 8.dp)
                 .clickable { onClick(query.text) }
 
         )
@@ -126,7 +129,7 @@ fun MoviesList(movies: List<MovieItem>, onClick: (Int) -> Unit) {
     Column {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(15.dp, bottom = 20.dp),
+            contentPadding = PaddingValues(bottom = 20.dp),
             modifier = Modifier
                 .fillMaxHeight()
                 .padding(bottom = 10.dp)
@@ -140,9 +143,3 @@ fun MoviesList(movies: List<MovieItem>, onClick: (Int) -> Unit) {
 
 }
 
-
-@OptIn(ExperimentalFoundationApi::class)
-@Preview
-@Composable
-fun Prev() {
-}
