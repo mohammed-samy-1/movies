@@ -11,7 +11,8 @@ fun Movie.toMovieItem(): MovieItem {
     return MovieItem(
         this.id,
         this.title,
-        this.release_date,
+        (if ((this.release_date?.length ?: 0) >= 4) this.release_date?.substring(0, 4) else null)
+            ?: "unknown",
         "https://image.tmdb.org/t/p/original/" + this.poster_path
     )
 }
@@ -20,10 +21,12 @@ fun DetailsResponse.toMovieDetails(): MovieDetails {
     return MovieDetails(
         this.id,
         this.title,
-        this.release_date,
+        (if ((this.release_date?.length ?: 0) >= 4) this.release_date?.substring(0, 4) else null)
+            ?: "unknown",
         "https://image.tmdb.org/t/p/original/" + this.poster_path,
         this.credits.cast.map { it.toCastItem() },
-        this.overview
+        this.overview,
+        "%.2f/10".format(this.vote_average)
     )
 }
 

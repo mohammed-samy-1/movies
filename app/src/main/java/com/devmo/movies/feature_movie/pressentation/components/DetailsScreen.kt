@@ -62,16 +62,17 @@ fun MovieDetailScreen(id: Int, onBackClicked: () -> Unit, viewModel: DetailsView
             }
         )
 
-        MovieDetailContent(movieDetail)
+        MovieDetailContent(movieDetail, Modifier.fillMaxWidth())
     }
 }
 
 @Composable
-fun MovieDetailContent(movie: MovieDetails) {
+fun MovieDetailContent(movie: MovieDetails,modifier: Modifier) {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
+            .fillMaxWidth()
     ) {
         AsyncImage(
             model = movie.imageURL,
@@ -86,7 +87,7 @@ fun MovieDetailContent(movie: MovieDetails) {
 
         Text(text = "Name: ${movie.title}", style = MaterialTheme.typography.headlineMedium)
         Text(text = "Year: ${movie.date}", style = MaterialTheme.typography.bodyMedium)
-        Text(text = "Rating: ${movie.date}", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Rating: ${movie.rating}⭐", style = MaterialTheme.typography.bodyMedium)
         Text(text = "Description: ${movie.overview}", style = MaterialTheme.typography.bodyMedium)
 
         Spacer(modifier = Modifier.height(16.dp))

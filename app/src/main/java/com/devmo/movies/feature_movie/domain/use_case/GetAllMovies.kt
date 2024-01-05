@@ -5,5 +5,5 @@ import java.util.concurrent.Flow
 import javax.inject.Inject
 
 class GetAllMovies @Inject constructor(private val repository: Repository) {
-    suspend operator fun invoke(genre: Int, page:Int) = repository.getMovies(genre,page)
+    suspend operator fun invoke(genre: Int) = repository.getMoviesPaging(genre)
 }

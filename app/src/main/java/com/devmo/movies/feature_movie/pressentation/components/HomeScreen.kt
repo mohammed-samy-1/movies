@@ -27,6 +27,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.devmo.movies.R
 import com.devmo.movies.core.pressentation.theme.ui.*
 import com.devmo.movies.feature_movie.data.model.Genre
@@ -46,15 +48,17 @@ fun HomeScreen(viewModel: MainViewModel, onMovieClick: (Int) -> Unit) {
             viewModel.getALlMovies()
 
             Search {
-                viewModel.search(it)
+                viewModel.query = it
+                viewModel.search()
             }
             Chips(
                 chips = viewModel.genres.value,
                 onClick = {
-                    viewModel.getALlMoviesByGenre(it)
+                    viewModel.selectedGenre = it
+                    viewModel.getALlMovies()
                 }
             )
-            MoviesList(movies = viewModel.movies, onMovieClick)
+            MoviesList(movies = viewModel.movies.collectAsLazyPagingItems(), onMovieClick)
         }
     }
 }
@@ -125,7 +129,7 @@ fun Chips(chips: List<Genre>, onClick: (Int) -> Unit) {
 
 @ExperimentalFoundationApi
 @Composable
-fun MoviesList(movies: List<MovieItem>, onClick: (Int) -> Unit) {
+fun MoviesList(movies: LazyPagingItems<MovieItem>, onClick: (Int) -> Unit) {
     Column {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -134,8 +138,11 @@ fun MoviesList(movies: List<MovieItem>, onClick: (Int) -> Unit) {
                 .fillMaxHeight()
                 .padding(bottom = 10.dp)
         ) {
-            items(movies) {
-                MovieItem(movie = it, onMovieClick = onClick)
+            items(movies.itemCount) {
+                movies[it]?.let { movie ->
+
+                    MovieItem(movie = movie, onMovieClick = onClick)
+                }
             }
         }
 

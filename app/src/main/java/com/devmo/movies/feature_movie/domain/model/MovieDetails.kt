@@ -8,5 +8,6 @@ data class MovieDetails(
     val date: String = "",
     val imageURL: String= "",
     val cast:List<CastItem> = listOf(),
-    val overview: String = ""
+    val overview: String = "",
+    val rating: String = ""
 )
